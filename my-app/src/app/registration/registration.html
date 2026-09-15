@@ -1,0 +1,48 @@
+<main class="page-shell">
+	
+
+		<div class="form-panel">
+			<div class="form-heading">
+				<div>
+					  <p class="eyebrow">WELCOME</p>
+					  <h2>Create your account</h2>
+				</div>
+				<p class="sign-in">Already have an account? <a href="#sign-in">Sign in</a></p>
+			</div>
+
+			<form #registrationForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+				<div class="field-row">
+					<label class="field">
+						<span>First name</span>
+						<input type="text" name="firstName" placeholder="Ada" autocomplete="given-name" required ngModel />
+					</label>
+					<label class="field">
+						<span>Last name</span>
+						<input type="text" name="lastName" placeholder="Lovelace" autocomplete="family-name" required ngModel />
+					</label>
+				</div>
+				<label class="field">
+					<span>Work email</span>
+					  <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required email ngModel />
+				</label>
+				<label class="field">
+					<span>Password</span>
+					  <input type="password" name="password" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required ngModel />
+					  <small>Use 8 or more characters with a mix of letters and numbers.</small>
+				</label>
+				<label class="check-row">
+					<input type="checkbox" name="terms" required ngModel />
+					  <span>I agree to the <a href="#terms">Terms of service</a> and <a href="#privacy">Privacy policy</a>.</span>
+				</label>
+				<button class="submit-button" type="submit">
+					<span>{{ submitted ? 'Account ready' : 'Create account' }}</span>
+					<span aria-hidden="true">→</span>
+				</button>
+				@if (submitted) {
+					<p class="success-message" role="status">Thanks. Your account details are ready to go.</p>
+				}
+			</form>
+			<p class="form-footer">Protected by secure, encrypted sign-in.</p>
+		</div>
+
+</main>
