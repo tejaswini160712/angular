@@ -7,34 +7,49 @@
 					  <p class="eyebrow">WELCOME</p>
 					  <h2>Create your account</h2>
 				</div>
-				<p class="sign-in">Already have an account? <a href="#sign-in">Sign in</a></p>
+				<p class="sign-in">Already have an account? <a (click)="navigateToSignin()">Sign in</a></p>
 			</div>
 
-			<form #registrationForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+			<form #registrationForm="ngForm" novalidate>
 				<div class="field-row">
-					<label class="field">
+					<label class="field" [class.has-error]="showValidation && firstName.invalid">
 						<span>First name</span>
-						<input type="text" name="firstName" placeholder="Ada" autocomplete="given-name" required ngModel />
+						<input #firstName="ngModel" type="text" name="firstName" placeholder="Ada" autocomplete="given-name" required ngModel />
+						@if (showValidation && firstName.invalid) {
+							<small class="validation-message">Enter your first name.</small>
+						}
 					</label>
-					<label class="field">
+					<label class="field" [class.has-error]="showValidation && lastName.invalid">
 						<span>Last name</span>
-						<input type="text" name="lastName" placeholder="Lovelace" autocomplete="family-name" required ngModel />
+						<input #lastName="ngModel" type="text" name="lastName" placeholder="Lovelace" autocomplete="family-name" required ngModel />
+						@if (showValidation && lastName.invalid) {
+							<small class="validation-message">Enter your last name.</small>
+						}
 					</label>
 				</div>
-				<label class="field">
+				<label class="field" [class.has-error]="showValidation && email.invalid">
 					<span>Work email</span>
-					  <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required email ngModel />
+					<input #email="ngModel" type="email" name="email" placeholder="you@example.com" autocomplete="email" required email ngModel />
+					@if (showValidation && email.invalid) {
+						<small class="validation-message">Enter a valid work email.</small>
+					}
 				</label>
-				<label class="field">
+				<label class="field" [class.has-error]="showValidation && password.invalid">
 					<span>Password</span>
-					  <input type="password" name="password" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required ngModel />
+					<input #password="ngModel" type="password" name="password" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required ngModel />
 					  <small>Use 8 or more characters with a mix of letters and numbers.</small>
+					@if (showValidation && password.invalid) {
+						<small class="validation-message">Use at least 8 characters.</small>
+					}
 				</label>
-				<label class="check-row">
-					<input type="checkbox" name="terms" required ngModel />
+				<label class="check-row" [class.has-error]="showValidation && terms.invalid">
+					<input #terms="ngModel" type="checkbox" name="terms" required ngModel />
 					  <span>I agree to the <a href="#terms">Terms of service</a> and <a href="#privacy">Privacy policy</a>.</span>
 				</label>
-				<button class="submit-button" type="submit">
+				@if (showValidation && terms.invalid) {
+					<p class="validation-message terms-error">You must accept the terms to continue.</p>
+				}
+				<button class="submit-button" type="button" (click)="onSubmit(registrationForm)">
 					<span>{{ submitted ? 'Account ready' : 'Create account' }}</span>
 					<span aria-hidden="true">→</span>
 				</button>

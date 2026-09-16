@@ -1,0 +1,21 @@
+<h1>Sign In</h1>
+<form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Work email</label>
+    <input type="email" formControlName="email" placeholder="you@example.com" />
+    <small *ngIf="signinForm.get('email')?.touched && signinForm.get('email')?.invalid">
+      Please enter a valid email.
+    </small>
+  </div>
+  <div>
+    <label>Password</label>
+    <input type="password" formControlName="password" placeholder="Enter your password" />
+    <small *ngIf="signinForm.get('password')?.touched && signinForm.get('password')?.invalid">
+      Password must be at least 8 characters.
+    </small>
+  </div>
+  <button type="submit" [disabled]="isSubmitting">
+    {{ isSubmitting ? 'Signing in...' : 'Sign in' }}
+  </button>
+</form>
+<p *ngIf="msgdata">{{ msg }}</p>

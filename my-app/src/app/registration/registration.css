@@ -24,7 +24,10 @@ input[type='text'], input[type='email'], input[type='password'] { width: 100%; b
 input:focus { border-color: #1a73e8; box-shadow: 0 0 0 1px #1a73e8; }
 input::placeholder { color: #a2aaa2; }
 .field small { color: #89918a; font-size: .7rem; font-weight: 400; line-height: 1.4; }
+.validation-message { color: #b3261e !important; }
+.has-error input { border-color: #b3261e; }
 .check-row { display: flex; gap: 10px; align-items: flex-start; color: #727872; font-size: .74rem; line-height: 1.5; }
+.terms-error { margin: -10px 0 0; font-size: .7rem; }
 .check-row input { width: 16px; height: 16px; margin: 1px 0 0; accent-color: #1a73e8; }
 .submit-button { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 13px 16px; border: 0; border-radius: 4px; color: #fff; background: #1a73e8; font: 700 .83rem inherit; cursor: pointer; transition: background 160ms, transform 160ms; }
 .submit-button:hover { background: #1769d1; transform: translateY(-1px); }

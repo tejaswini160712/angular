@@ -1,8 +1,11 @@
 import { Component, signal } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { Signin } from './signin/signin';
 import { Registration } from './registration/registration';
 
 @Component({
-  imports: [Registration],
+  imports: [ReactiveFormsModule, RouterModule],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

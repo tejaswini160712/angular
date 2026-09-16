@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   imports: [FormsModule],
@@ -8,9 +9,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './registration.html',
 })
 export class Registration {
-  protected submitted = false;
+  submitted = false;
+  showValidation = false;
+constructor(private router:Router) {}
+  onSubmit(form: NgForm): void {
+    this.showValidation = true;
+    this.submitted = false;
 
-  protected onSubmit(): void {
-    this.submitted = true;
+    if (form.valid) {
+      this.submitted = true;
+    }
   }
+navigateToSignin(){
+     this.router.navigate(['/signin']);  
 }
+}
+
