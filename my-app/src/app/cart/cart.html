@@ -1,0 +1,51 @@
+<div class="cart-page">
+  <div class="cart-container">
+    <div class="cart-topbar">
+      <a routerLink="/dashboard" class="back-link">← Back to dashboard</a>
+      <h2>Your Cart</h2>
+    </div>
+
+    <div class="cart-layout">
+      <div class="cart-items-panel">
+        <div class="cart-item" *ngFor="let item of cartItems; let i = index">
+          <div class="cart-product-icon">🛍️</div>
+
+          <div class="cart-product-info">
+            <h3>{{ item.name }}</h3>
+            <p>Item price: $ {{ item.price }}</p>
+          </div>
+
+          <div class="cart-actions">
+            <div class="qty-box">
+              <button type="button" class="qty-btn" (click)="decreaseQty(i)">-</button>
+              <span>{{ item.qty }}</span>
+              <button type="button" class="qty-btn" (click)="increaseQty(i)">+</button>
+            </div>
+            <button type="button" class="remove-btn" (click)="removeItem(i)">Remove</button>
+          </div>
+
+          <div class="cart-product-total">$ {{ item.price * item.qty }}</div>
+        </div>
+      </div>
+
+      <aside class="order-summary">
+        <h3>Order Summary</h3>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <strong>$ {{ subtotal }}</strong>
+        </div>
+        <div class="summary-row">
+          <span>Delivery</span>
+          <strong>$ {{ delivery }}</strong>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <strong>$ {{ total }}</strong>
+        </div>
+
+        <button type="button" class="checkout-btn">Checkout</button>
+      </aside>
+    </div>
+  </div>
+</div>
