@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   selector: 'app-signin',
   styleUrl: './signin.css',
   templateUrl: './signin.html',
@@ -15,7 +16,7 @@ export class Signin implements OnInit {
   signinForm!: FormGroup;
   isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private router:Router) {}
 
   ngOnInit(): void {
     this.signinForm = this.fb.group({
@@ -23,7 +24,9 @@ export class Signin implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
-
+navigateTodashboard(){
+this.router.navigate(['/dashboard']);
+}
   onSubmit(): void {
     if (this.signinForm.invalid) {
       this.signinForm.markAllAsTouched();

@@ -1,0 +1,136 @@
+<div class="dashboard-shell">
+  <div class="dashboard-content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Smart shopping</p>
+        <h2>Dashboard</h2>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="ghost-btn">Categories</button>
+        <button class="cart-btn" (click)="goToCart()">Cart ({{ cartItems.length }})</button>
+      </div>
+    </header>
+
+    <section class="promo-banner">
+      <div class="promo-copy">
+        <span class="promo-tag">In store for</span>
+        <h1>
+          BEST
+          <span>DISCOUNT</span>
+          SHOPPING
+          <span>APPS</span>
+        </h1>
+        <p>Find the best deals for your daily needs.</p>
+
+        <div class="store-badges" aria-label="available on app stores">
+          <span>App Store</span>
+          <span>Google Play</span>
+        </div>
+      </div>
+
+      <div class="promo-visual" aria-hidden="true">
+        <div class="floating-card card-one">
+          <span>🎁</span>
+          <small>Deals</small>
+        </div>
+
+        <div class="floating-card card-two">
+          <span>🛍️</span>
+          <small>Shop</small>
+        </div>
+
+        <div class="device">
+          <div class="screen">
+            <div class="screen-badge">50% OFF</div>
+            <div class="screen-icon">🛒</div>
+          </div>
+        </div>
+
+        <div class="bag bag-main">
+          <div class="bag-handle"></div>
+          <div class="bag-content">
+            <span class="bag-label">Daily Deals</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-strip" aria-label="Product categories">
+      <button
+        type="button"
+        class="category-btn"
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category"
+        (click)="setCategory(category)"
+      >
+        {{ category }}
+      </button>
+    </section>
+
+    <section class="dashboard-main">
+      <div class="products-panel">
+        <div class="section-heading">
+          <h3>Featured items</h3>
+          <a href="#">See all</a>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card" *ngFor="let product of filteredProducts">
+            <div class="product-image">{{ product.emoji }}</div>
+            <span class="product-badge">{{ product.badge }}</span>
+            <div class="product-body">
+              <p class="product-category">{{ product.category }}</p>
+              <h4>{{ product.name }}</h4>
+              <div class="rating">★ {{ product.rating }}</div>
+              <div class="price-row">
+                <strong>$ {{ product.price }}</strong>
+                <span>$ {{ product.oldPrice }}</span>
+              </div>
+              <button type="button" class="add-btn" (click)="addToCart(product)">Add to cart</button>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <aside class="cart-panel">
+        <div class="cart-header">
+          <h3>My Cart</h3>
+          <span>{{ cartItems.length }} items</span>
+        </div>
+
+        <div class="cart-items">
+          <div class="cart-item" *ngFor="let item of cartItems; let i = index">
+            <div class="cart-icon">🛍️</div>
+            <div class="cart-details">
+              <strong>{{ item.name }}</strong>
+              <div class="qty-box">
+                <button type="button" class="qty-btn" (click)="decreaseQty(i)">-</button>
+                <span>{{ item.qty }}</span>
+                <button type="button" class="qty-btn" (click)="increaseQty(i)">+</button>
+              </div>
+            </div>
+            <div class="cart-price">$ {{ item.price * item.qty }}</div>
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <strong>$ {{ subtotal }}</strong>
+          </div>
+          <div class="summary-row">
+            <span>Delivery</span>
+            <strong>$ {{ delivery }}</strong>
+          </div>
+          <div class="summary-row total-row">
+            <span>Total</span>
+            <strong>$ {{ total }}</strong>
+          </div>
+        </div>
+
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </aside>
+    </section>
+  </div>
+</div>
