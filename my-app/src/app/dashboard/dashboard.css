@@ -1,7 +1,9 @@
 .dashboard-shell {
   min-height: 100vh;
   padding: 32px 20px 48px;
-  background: linear-gradient(180deg, #f5f0ff 0%, #f9fafb 100%);
+  background:
+    linear-gradient(180deg, rgba(245, 240, 255, 0.86) 0%, rgba(249, 250, 251, 0.94) 100%),
+    url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=2200&q=85') center / cover fixed;
 }
 
 .dashboard-content {
@@ -56,6 +58,20 @@
   color: #fff;
   padding: 11px 18px;
   box-shadow: 0 12px 24px rgba(124, 92, 255, 0.22);
+}
+
+.remove-btn {
+  border: 0;
+  background: transparent;
+  color: #9b93b2;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 4px;
+}
+
+.remove-btn:hover {
+  color: #d9476d;
 }
 
 .promo-banner {
@@ -376,11 +392,13 @@
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 18px;
 }
 
 .product-card {
+  width: 100%;
+  box-sizing: border-box;
   background: linear-gradient(180deg, #ffffff 0%, #f7f4ff 100%);
   border: 1px solid #ebe4ff;
   border-radius: 20px;
@@ -456,6 +474,7 @@
 }
 
 .add-btn {
+  width: 100%;
   margin-top: 8px;
   border: none;
   border-radius: 10px;

@@ -21,10 +21,18 @@
               <span>{{ item.qty }}</span>
               <button type="button" class="qty-btn" (click)="increaseQty(i)">+</button>
             </div>
-            <button type="button" class="remove-btn" (click)="removeItem(i)">Remove</button>
           </div>
 
           <div class="cart-product-total">$ {{ item.price * item.qty }}</div>
+          <button
+            type="button"
+            class="remove-btn"
+            aria-label="Remove {{ item.name }} from cart"
+            title="Remove item"
+            (click)="removeFromCart(i)"
+          >
+            ×
+          </button>
         </div>
       </div>
 
@@ -44,7 +52,30 @@
           <strong>$ {{ total }}</strong>
         </div>
 
-        <button type="button" class="checkout-btn">Checkout</button>
+        <button type="button" class="checkout-btn" (click)="openPaymentOptions()">
+          Checkout
+        </button>
+
+        <div class="payment-options" *ngIf="showPaymentOptions">
+          <h4>Choose payment method</h4>
+
+          <label>
+            <input type="radio" name="payment" value="upi" [(ngModel)]="selectedPayment" />
+            UPI
+          </label>
+          <label>
+            <input type="radio" name="payment" value="card" [(ngModel)]="selectedPayment" />
+            Credit/Debit Card
+          </label>
+          <label>
+            <input type="radio" name="payment" value="cod" [(ngModel)]="selectedPayment" />
+            Cash on Delivery
+          </label>
+
+          <button type="button" class="pay-btn" (click)="completePayment()">
+            Pay $ {{ total }}
+          </button>
+        </div>
       </aside>
     </div>
   </div>

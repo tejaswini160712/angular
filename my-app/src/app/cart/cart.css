@@ -116,17 +116,23 @@
   color: #2c2241;
 }
 
-.remove-btn {
-  border: none;
-  background: transparent;
-  color: #d84a6a;
-  font-weight: 700;
-  cursor: pointer;
-}
-
 .cart-product-total {
   font-weight: 800;
   color: #2d2145;
+}
+
+.remove-btn {
+  border: 0;
+  background: transparent;
+  color: #9b93b2;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 4px;
+}
+
+.remove-btn:hover {
+  color: #d9476d;
 }
 
 .order-summary {
@@ -165,6 +171,40 @@
   background: linear-gradient(135deg, #ffb067 0%, #ff8b4a 100%);
   color: #fff;
   font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.payment-options {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eae2ff;
+}
+
+.payment-options h4 {
+  margin: 0 0 12px;
+  color: #1f1d35;
+}
+
+.payment-options label {
+  display: block;
+  margin: 10px 0;
+  color: #585e75;
+  cursor: pointer;
+}
+
+.payment-options input {
+  margin-right: 8px;
+}
+
+.pay-btn {
+  width: 100%;
+  margin-top: 10px;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #4f3cc9;
+  color: #fff;
   font-weight: 700;
   cursor: pointer;
 }

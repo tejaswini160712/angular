@@ -32,12 +32,36 @@ export class Dashboard {
     { id: 4, name: 'Gaming Headset', category: 'Accessories', price: 89, oldPrice: 129, rating: 4.5, emoji: '🎮', badge: 'Hot' },
     { id: 5, name: 'Samsung Galaxy S24', category: 'Smartphones', price: 879, oldPrice: 999, rating: 4.9, emoji: '📲', badge: 'Popular' },
     { id: 6, name: 'Bluetooth Speaker', category: 'Audio', price: 119, oldPrice: 169, rating: 4.4, emoji: '🔊', badge: 'Trending' },
+     { id: 1, name: 'iPhone 15 Pro', category: 'Smartphones', price: 999, oldPrice: 1199, rating: 4.8, emoji: '📱', badge: 'Top Pick' },
+    { id: 2, name: 'AirPods Max', category: 'Audio', price: 499, oldPrice: 599, rating: 4.7, emoji: '🎧', badge: 'Best Deal' },
+    { id: 3, name: 'Nike Air Max', category: 'Sports', price: 159, oldPrice: 229, rating: 4.6, emoji: '👟', badge: 'New' },
+    { id: 4, name: 'Gaming Headset', category: 'Accessories', price: 89, oldPrice: 129, rating: 4.5, emoji: '🎮', badge: 'Hot' },
+    { id: 5, name: 'Samsung Galaxy S24', category: 'Smartphones', price: 879, oldPrice: 999, rating: 4.9, emoji: '📲', badge: 'Popular' },
+    { id: 6, name: 'Bluetooth Speaker', category: 'Audio', price: 119, oldPrice: 169, rating: 4.4, emoji: '🔊', badge: 'Trending' },
   ];
 
-  cartItems = [
-    { name: 'iPhone 15 Pro', qty: 1, price: 999 },
-    { name: 'Nike Air Max', qty: 1, price: 159 },
-  ];
+  cartItems = this.loadCart();
+
+  private loadCart() {
+    const saved = localStorage.getItem('cartItems');
+
+    if (!saved) {
+      return [
+        { name: 'iPhone 15 Pro', qty: 1, price: 999 },
+        { name: 'Nike Air Max', qty: 1, price: 159 },
+      ];
+    }
+
+    try {
+      return JSON.parse(saved) as { name: string; qty: number; price: number }[];
+    } catch {
+      return [];
+    }
+  }
+
+  private saveCart(): void {
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
 
   get filteredProducts(): Product[] {
     if (this.selectedCategory === 'All') {
@@ -51,25 +75,38 @@ export class Dashboard {
     this.selectedCategory = category;
   }
 
+  scrollToCategories(): void {
+    document.getElementById('category-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   addToCart(product: Product): void {
     const existingItem = this.cartItems.find((item) => item.name === product.name);
 
     if (existingItem) {
       existingItem.qty += 1;
+      this.saveCart();
       return;
     }
 
     this.cartItems.push({ name: product.name, qty: 1, price: product.price });
+    this.saveCart();
   }
 
   increaseQty(index: number): void {
     this.cartItems[index].qty += 1;
+    this.saveCart();
   }
 
   decreaseQty(index: number): void {
     if (this.cartItems[index].qty > 1) {
       this.cartItems[index].qty -= 1;
+      this.saveCart();
     }
+  }
+
+  removeFromCart(index: number): void {
+    this.cartItems.splice(index, 1);
+    this.saveCart();
   }
 
   get subtotal(): number {

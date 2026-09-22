@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -16,7 +15,7 @@ export class Signin implements OnInit {
   signinForm!: FormGroup;
   isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router:Router) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.signinForm = this.fb.group({
@@ -24,9 +23,10 @@ export class Signin implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
-navigateTodashboard(){
-this.router.navigate(['/dashboard']);
-}
+  navigateTodashboard(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
   onSubmit(): void {
     if (this.signinForm.invalid) {
       this.signinForm.markAllAsTouched();
@@ -36,20 +36,22 @@ this.router.navigate(['/dashboard']);
     this.isSubmitting = true;
     this.msgdata = false;
 
-    this.http
-      .post<{ success: boolean; message: string; user?: { email: string,password:string } }>('api/signin', this.signinForm.value)
-      .subscribe({
-        next: (response) => {
-          this.isSubmitting = false;
-          this.msg = response.message || 'Sign in successful!';
-          this.msgdata = true;
-          localStorage.setItem('currentUser', JSON.stringify(response.user || this.signinForm.value));
-        },
-        error: (error) => {
-          this.isSubmitting = false;
-          this.msg = error?.error?.message || 'Unable to sign in. Please try again.';
-          this.msgdata = true;
-        },
-      });
+    const registeredUsers: Array<{ email: string; password: string }> = JSON.parse(
+      localStorage.getItem('registeredUsers') || '[]',
+    );
+    const user = registeredUsers.find(
+      (registeredUser) =>
+        registeredUser.email === this.signinForm.value.email &&
+        registeredUser.password === this.signinForm.value.password,
+    );
+
+    this.isSubmitting = false;
+    this.msg = user ? 'Sign in successful!' : 'No account found with those credentials.';
+    this.msgdata = true;
+
+    if (user) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.navigateTodashboard();
+    }
   }
 }

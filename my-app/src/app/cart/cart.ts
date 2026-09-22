@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 interface CartItem {
@@ -9,43 +10,31 @@ interface CartItem {
 }
 
 @Component({
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   selector: 'app-cart',
   styleUrl: './cart.css',
   templateUrl: './cart.html',
 })
 export class Cart {
+  private readonly defaultCart: CartItem[] = [
+    { name: 'iPhone 15 Pro', qty: 1, price: 999 },
+    { name: 'Nike Air Max', qty: 1, price: 159 },
+  ];
+
   cartItems: CartItem[] = this.loadCart();
+  showPaymentOptions = false;
+  selectedPayment = 'upi';
 
   private loadCart(): CartItem[] {
-    if (typeof localStorage === 'undefined') {
-      return [
-        { name: 'iPhone 15 Pro', qty: 1, price: 999 },
-        { name: 'Nike Air Max', qty: 2, price: 159 },
-        { name: 'AirPods Max', qty: 1, price: 499 },
-        { name: 'Gaming Headset', qty: 1, price: 89 },
-      ];
-    }
-
     const saved = localStorage.getItem('cartItems');
     if (!saved) {
-      return [
-        { name: 'iPhone 15 Pro', qty: 1, price: 999 },
-        { name: 'Nike Air Max', qty: 2, price: 159 },
-        { name: 'AirPods Max', qty: 1, price: 499 },
-        { name: 'Gaming Headset', qty: 1, price: 89 },
-      ];
+      return [...this.defaultCart];
     }
 
     try {
       return JSON.parse(saved) as CartItem[];
     } catch {
-      return [
-        { name: 'iPhone 15 Pro', qty: 1, price: 999 },
-        { name: 'Nike Air Max', qty: 2, price: 159 },
-        { name: 'AirPods Max', qty: 1, price: 499 },
-        { name: 'Gaming Headset', qty: 1, price: 89 },
-      ];
+      return [];
     }
   }
 
@@ -64,13 +53,10 @@ export class Cart {
     if (this.cartItems[index].qty > 1) {
       this.cartItems[index].qty -= 1;
       this.saveCart();
-      return;
     }
-
-    this.removeItem(index);
   }
 
-  removeItem(index: number): void {
+  removeFromCart(index: number): void {
     this.cartItems.splice(index, 1);
     this.saveCart();
   }
@@ -85,5 +71,43 @@ export class Cart {
 
   get total(): number {
     return this.subtotal + this.delivery;
+  }
+
+  openPaymentOptions(): void {
+    if (this.cartItems.length === 0) {
+      window.confirm('Your cart is empty.');
+      return;
+    }
+
+    this.showPaymentOptions = true;
+  }
+
+  completePayment(): void {
+    if (this.cartItems.length === 0) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Confirm payment of $${this.total} using ${this.paymentLabel}?`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    window.alert(`Payment done using ${this.paymentLabel}.`);
+    this.cartItems = [];
+    this.saveCart();
+    this.showPaymentOptions = false;
+  }
+
+  get paymentLabel(): string {
+    const labels: Record<string, string> = {
+      upi: 'UPI',
+      card: 'Credit/Debit Card',
+      cod: 'Cash on Delivery',
+    };
+
+    return labels[this.selectedPayment];
   }
 }
