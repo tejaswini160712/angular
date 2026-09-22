@@ -11,17 +11,25 @@ import { Router, RouterLink } from '@angular/router';
 export class Registration {
   submitted = false;
   showValidation = false;
-constructor(private router:Router) {}
+  constructor(private router: Router) {}
+
   onSubmit(form: NgForm): void {
     this.showValidation = true;
     this.submitted = false;
 
     if (form.valid) {
+      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      registeredUsers.push({
+        email: form.value.email,
+        password: form.value.password,
+      });
+      localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
       this.submitted = true;
     }
   }
-navigateToSignin(){
-     this.router.navigate(['/signin']);  
-}
+
+  navigateToSignin(): void {
+    this.router.navigate(['/signin']);
+  }
 }
 
