@@ -7,12 +7,12 @@
 
     <div class="cart-layout">
       <div class="cart-items-panel">
-        <div class="cart-item" *ngFor="let item of cartItems; let i = index">
+        <div class="cart-item" *ngFor="let item of cartItems(); let i = index">
           <div class="cart-product-icon">🛍️</div>
 
           <div class="cart-product-info">
             <h3>{{ item.name }}</h3>
-            <p>Item price: $ {{ item.price }}</p>
+            <p>Item price: ₹ {{ item.price }}</p>
           </div>
 
           <div class="cart-actions">
@@ -23,7 +23,7 @@
             </div>
           </div>
 
-          <div class="cart-product-total">$ {{ item.price * item.qty }}</div>
+          <div class="cart-product-total">₹ {{ item.price * item.qty }}</div>
           <button
             type="button"
             class="remove-btn"
@@ -41,41 +41,34 @@
 
         <div class="summary-row">
           <span>Subtotal</span>
-          <strong>$ {{ subtotal }}</strong>
+          <strong>₹ {{ subtotal }}</strong>
         </div>
         <div class="summary-row">
           <span>Delivery</span>
-          <strong>$ {{ delivery }}</strong>
+          <strong>₹ {{ delivery }}</strong>
         </div>
         <div class="summary-row total-row">
           <span>Total</span>
-          <strong>$ {{ total }}</strong>
+          <strong>₹ {{ total }}</strong>
         </div>
 
         <button type="button" class="checkout-btn" (click)="openPaymentOptions()">
           Checkout
         </button>
 
-        <div class="payment-options" *ngIf="showPaymentOptions">
-          <h4>Choose payment method</h4>
+        <div class="payment-options" *ngIf="showPaymentOptions && cartItems().length > 0">
+          <h4>Secure payment with Razorpay</h4>
+          <p class="payment-description">Pay securely in INR using the methods available for your account.</p>
 
-          <label>
-            <input type="radio" name="payment" value="upi" [(ngModel)]="selectedPayment" />
-            UPI
-          </label>
-          <label>
-            <input type="radio" name="payment" value="card" [(ngModel)]="selectedPayment" />
-            Credit/Debit Card
-          </label>
-          <label>
-            <input type="radio" name="payment" value="cod" [(ngModel)]="selectedPayment" />
-            Cash on Delivery
-          </label>
-
-          <button type="button" class="pay-btn" (click)="completePayment()">
-            Pay $ {{ total }}
+          <button type="button" class="pay-btn" [disabled]="paymentStatus === 'processing'" (click)="completePayment()">
+            {{ paymentStatus === 'processing' ? 'Connecting...' : 'Pay ₹ ' + total }}
           </button>
         </div>
+        @if (paymentMessage) {
+          <p class="payment-message" [class.payment-error]="paymentStatus === 'error'" [class.payment-success]="paymentStatus === 'success'" role="status">
+            {{ paymentMessage }}
+          </p>
+        }
       </aside>
     </div>
   </div>

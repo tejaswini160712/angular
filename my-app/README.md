@@ -12,6 +12,19 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Razorpay test checkout
+
+The cart uses Razorpay Checkout in INR. Copy `.env.example` to `.env` and set your Razorpay test keys. Never put the key secret in frontend code or commit `.env`.
+
+Start the Angular app and payment API in separate terminals:
+
+```bash
+npm start
+npm run start:api
+```
+
+Use Razorpay test mode credentials and verify that payment capture is enabled in the Razorpay account. The API recalculates item prices from its server-side catalog and verifies the Razorpay signature and captured payment before clearing the cart.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

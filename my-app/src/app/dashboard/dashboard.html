@@ -92,8 +92,8 @@
               <div class="rating">★ {{ product.rating }}</div>
            
               <div class="price-row">
-                <strong>$ {{ product.price }}</strong>
-                <span>$ {{ product.oldPrice }}</span>
+                <strong>₹ {{ product.price }}</strong>
+                <span>₹ {{ product.oldPrice }}</span>
               </div>
               <button type="button" class="add-btn" (click)="addToCart(product)">Add to cart</button>
             </div>
@@ -118,7 +118,7 @@
                 <button type="button" class="qty-btn" (click)="increaseQty(i)">+</button>
               </div>
             </div>
-            <div class="cart-price">$ {{ item.price * item.qty }}</div>
+            <div class="cart-price">₹ {{ item.price * item.qty }}</div>
             <button
               type="button"
               class="remove-btn"
@@ -134,15 +134,15 @@
         <div class="summary-box">
           <div class="summary-row">
             <span>Subtotal</span>
-            <strong>$ {{ subtotal }}</strong>
+            <strong>₹ {{ subtotal }}</strong>
           </div>
           <div class="summary-row">
             <span>Delivery</span>
-            <strong>$ {{ delivery }}</strong>
+            <strong>₹ {{ delivery }}</strong>
           </div>
           <div class="summary-row total-row">
             <span>Total</span>
-            <strong>$ {{ total }}</strong>
+            <strong>₹ {{ total }}</strong>
           </div>
         </div>
 
